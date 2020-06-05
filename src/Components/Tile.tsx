@@ -1,11 +1,14 @@
 import * as React from "react"
 import { Button } from "../primitives"
+import { Image, ImageSourcePropType } from "react-native"
 
 interface TileProps {
-    tile: any
+    animalName: string
+    animalImageSrc: ImageSourcePropType
+    size: number
 }
 
-const Tile: React.FC<TileProps> = ({ tile }) => (
+const Tile: React.FC<TileProps> = ({ animalName, animalImageSrc, size }) => (
     <Button
         style={{
             flex: 1,
@@ -13,9 +16,13 @@ const Tile: React.FC<TileProps> = ({ tile }) => (
             borderColor: "black",
             borderWidth: 2,
         }}
-        onPress={() => console.log(`tile ${tile} clicked`)}
+        onPress={() => console.log(`tile ${animalName} clicked`)}
     >
-        {tile}
+        <Image
+            source={animalImageSrc}
+            style={{ width: size, height: size }}
+            resizeMethod="scale"
+        />
     </Button>
 )
 

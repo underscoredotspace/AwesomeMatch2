@@ -1,108 +1,75 @@
-import * as React from "react"
-import { Image } from "react-native"
+/* eslint-disable @typescript-eslint/no-var-requires */
 
-const style = (tileSize: number) => ({
-    height: tileSize,
-    width: tileSize,
-})
+const cat = require("../../assets/animals/blobcat.png")
+const eagle = require("../../assets/animals/blobeagle.png")
+const goat = require("../../assets/animals/blobgoat.png")
+const nook = require("../../assets/animals/blobnook.png")
+const oro = require("../../assets/animals/bloboro.png")
+const bear = require("../../assets/animals/googlebear.png")
+const bee = require("../../assets/animals/googlebee.png")
+const bird = require("../../assets/animals/googlebird.png")
+const chick = require("../../assets/animals/googlechick.png")
+const chicken = require("../../assets/animals/googlechicken.png")
+const cow = require("../../assets/animals/googlecow.png")
+const crab = require("../../assets/animals/googlecrab.png")
+const dog = require("../../assets/animals/googledog.png")
+const dove = require("../../assets/animals/googledove.png")
 
-interface AnimalProps {
-    size: number
+const fox = require("../../assets/animals/googlefox.png")
+
+const koala = require("../../assets/animals/googlekoala.png")
+const lion = require("../../assets/animals/googlelion.png")
+const mouse = require("../../assets/animals/googlemouse.png")
+const octopus = require("../../assets/animals/googleoctopus.png")
+const penguin = require("../../assets/animals/googlepenguin.png")
+const pig = require("../../assets/animals/googlepig.png")
+const rabbit = require("../../assets/animals/googlerabbit.png")
+const rat = require("../../assets/animals/googlerat.png")
+const sheep = require("../../assets/animals/googlesheep.png")
+const snake = require("../../assets/animals/googlesnake.png")
+const squirrel = require("../../assets/animals/googlesquirrel.png")
+const turtle = require("../../assets/animals/googleturtle.png")
+const whale = require("../../assets/animals/googlewhale.png")
+const panda = require("../../assets/animals/pandablob.png")
+const pusheen = require("../../assets/animals/pusheenblob.png")
+const reindeer = require("../../assets/animals/reindeerblob.png")
+
+interface Animals {
+    [name: string]: NodeRequire
 }
 
-const cat: React.FC<AnimalProps> = ({ size }) => (
-    <Image
-        source={require("../../assets/animals/blobcat.png")}
-        style={style(size)}
-    />
-)
-const dog: React.FC<AnimalProps> = ({ size }) => (
-    <Image
-        source={require("../../assets/animals/googledog.png")}
-        style={style(size)}
-    />
-)
-const bird: React.FC<AnimalProps> = ({ size }) => (
-    <Image
-        source={require("../../assets/animals/googlebird.png")}
-        style={style(size)}
-    />
-)
-
-const eagle: React.FC<AnimalProps> = ({ size }) => (
-    <Image
-        source={require("../../assets/animals/blobeagle.png")}
-        style={style(size)}
-    />
-)
-
-const bee: React.FC<AnimalProps> = ({ size }) => (
-    <Image
-        source={require("../../assets/animals/googlebee.png")}
-        style={style(size)}
-    />
-)
-
-const goat: React.FC<AnimalProps> = ({ size }) => (
-    <Image
-        source={require("../../assets/animals/blobgoat.png")}
-        style={style(size)}
-    />
-)
-
-const bear: React.FC<AnimalProps> = ({ size }) => (
-    <Image
-        source={require("../../assets/animals/googlebear.png")}
-        style={style(size)}
-    />
-)
-
-const dove: React.FC<AnimalProps> = ({ size }) => (
-    <Image
-        source={require("../../assets/animals/googledove.png")}
-        style={style(size)}
-    />
-)
-
-const sheep: React.FC<AnimalProps> = ({ size }) => (
-    <Image
-        source={require("../../assets/animals/googlesheep.png")}
-        style={style(size)}
-    />
-)
-
-const mouse: React.FC<AnimalProps> = ({ size }) => (
-    <Image
-        source={require("../../assets/animals/googlemouse.png")}
-        style={style(size)}
-    />
-)
-
-const rabbit: React.FC<AnimalProps> = ({ size }) => (
-    <Image
-        source={require("../../assets/animals/googlerabbit.png")}
-        style={style(size)}
-    />
-)
-
-const pig: React.FC<AnimalProps> = ({ size }) => (
-    <Image
-        source={require("../../assets/animals/googlepig.png")}
-        style={style(size)}
-    />
-)
-
-export default [
+const animals: Animals = {
     cat,
-    dog,
-    bird,
     eagle,
-    bee,
-    dove,
-    bear,
     goat,
-    sheep,
+    nook,
+    oro,
+    bear,
+    bee,
+    bird,
+    chick,
+    chicken,
+    cow,
+    crab,
+    dog,
+    dove,
+    fox,
+    koala,
+    lion,
     mouse,
-    rabbit,
+    octopus,
+    penguin,
     pig,
-]
+    rabbit,
+    rat,
+    sheep,
+    snake,
+    squirrel,
+    turtle,
+    whale,
+    panda,
+    pusheen,
+    reindeer,
+}
+
+export default animals

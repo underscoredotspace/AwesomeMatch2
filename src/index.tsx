@@ -1,10 +1,22 @@
 import React from "react"
 import { View, Text } from "./primitives"
-import { useWindowDimensions, Image } from "react-native"
+import { useWindowDimensions } from "react-native"
 import { Tile } from "./Components"
+import { shuffle } from "./Helpers"
+import animals from "./Helpers/animals"
 
-const Main: React.FC<{ tiles: typeof Image[] }> = ({ tiles }) => {
+const Main: React.FC = () => {
     const { width } = useWindowDimensions()
+
+    const set = shuffle(
+        Object.entries(animals)
+            .map(([animalName, animalImageSrc]) => ({
+                animalName,
+                animalImageSrc,
+            }))
+            .slice()
+    ).slice(0, 8)
+    const tiles = shuffle([...set, ...set])
 
     const rows = [
         tiles.slice(0, 4),
@@ -31,9 +43,11 @@ const Main: React.FC<{ tiles: typeof Image[] }> = ({ tiles }) => {
                         }}
                         key={`row-${rowNdx}`}
                     >
-                        {row.map((tile, tileNdx) => (
+                        {row.map(({ animalName, animalImageSrc }, tileNdx) => (
                             <Tile
-                                tile={tile}
+                                animalName={animalName}
+                                animalImageSrc={animalImageSrc}
+                                size={width / 4 - 16}
                                 key={`row-${rowNdx}-tile-${tileNdx}`}
                             />
                         ))}
