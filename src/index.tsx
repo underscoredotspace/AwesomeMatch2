@@ -1,17 +1,20 @@
 import React from "react"
 import { View, Text } from "./primitives"
-import { useWindowDimensions } from "react-native"
+import { useWindowDimensions, Image } from "react-native"
+import { Tile } from "./Components"
 
-export default () => {
+const Main: React.FC<{ tiles: typeof Image[] }> = ({ tiles }) => {
     const { width } = useWindowDimensions()
+
     const rows = [
-        ["a", "b", "c", "d"],
-        ["e", "f", "g", "h"],
-        ["i", "j", "k", "l"],
-        ["m", "n", "o", "p"],
+        tiles.slice(0, 4),
+        tiles.slice(4, 8),
+        tiles.slice(8, 12),
+        tiles.slice(12, 16),
     ]
+
     return (
-        <>
+        <View style={{ margin: 5 }}>
             <View>
                 <Text style={{ fontSize: 20 }}>
                     This is some text in a really nice font
@@ -22,30 +25,23 @@ export default () => {
                     <View
                         style={{
                             flexDirection: "row",
-                            width,
+                            width: "100%",
                             flex: 1,
                             paddingVertical: 2,
                         }}
                         key={`row-${rowNdx}`}
                     >
                         {row.map((tile, tileNdx) => (
-                            <View
-                                key={`tile-${rowNdx}-${tileNdx}`}
-                                style={{
-                                    flex: 1,
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    borderColor: "black",
-                                    borderWidth: 2,
-                                    marginHorizontal: 2,
-                                }}
-                            >
-                                <Text>{tile}</Text>
-                            </View>
+                            <Tile
+                                tile={tile}
+                                key={`row-${rowNdx}-tile-${tileNdx}`}
+                            />
                         ))}
                     </View>
                 ))}
             </View>
-        </>
+        </View>
     )
 }
+
+export default Main
