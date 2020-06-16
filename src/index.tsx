@@ -1,54 +1,83 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { View, Text } from "./primitives"
-import { useWindowDimensions } from "react-native"
+import { useWindowDimensions, ImageSourcePropType } from "react-native"
 import { Tile } from "./Components"
-import { shuffle } from "./Helpers"
-import animals from "./Helpers/animals"
 
-const Main: React.FC = () => {
+interface Animal {
+    animalName: string
+    animalImageSrc: ImageSourcePropType
+}
+
+const Main: React.FC<{
+    rows: Animal[][]
+}> = ({ rows }) => {
     const { width } = useWindowDimensions()
+    const [selected, setSelected] = useState<[number, number][]>([])
+    const [matched, setMatched] = useState<[number, number][]>([])
 
-    const set = shuffle(
-        Object.entries(animals)
-            .map(([animalName, animalImageSrc]) => ({
-                animalName,
-                animalImageSrc,
-            }))
-            .slice()
-    ).slice(0, 8)
-    const tiles = shuffle([...set, ...set])
+    function onFlip(row: number, col: number) {
+        if (selected.length < 2) {
+            setSelected([...selected, [row, col]])
+        }
+    }
 
-    const rows = [
-        tiles.slice(0, 4),
-        tiles.slice(4, 8),
-        tiles.slice(8, 12),
-        tiles.slice(12, 16),
-    ]
+    useEffect(() => {
+        console.log(selected)
+        if (selected.length <= 1) {
+            return
+        }
+
+        if (selected.length === 2) {
+            const [[r1, c1], [r2, c2]] = selected
+            if (rows[r1][c1].animalName === rows[r2][c2].animalName) {
+                setMatched([...matched, [r1, c1], [r2, c2]])
+            }
+            setTimeout(() => {
+                setSelected([])
+            }, 1000)
+        }
+    }, [selected])
 
     return (
-        <View style={{ margin: 5 }}>
+        <View
+            style={{
+                margin: 16,
+                justifyContent: "space-between",
+            }}
+        >
             <View>
                 <Text style={{ fontSize: 20 }}>
-                    This is some text in a really nice font
+                    Tap two cards and see if they match!
                 </Text>
             </View>
-            <View style={{ height: width }}>
+            <View style={{ height: width - 32 }}>
                 {rows.map((row, rowNdx) => (
                     <View
                         style={{
                             flexDirection: "row",
                             width: "100%",
                             flex: 1,
-                            paddingVertical: 2,
+                            paddingVertical: 4,
                         }}
                         key={`row-${rowNdx}`}
                     >
-                        {row.map(({ animalName, animalImageSrc }, tileNdx) => (
+                        {row.map(({ animalName, animalImageSrc }, colNdx) => (
                             <Tile
                                 animalName={animalName}
                                 animalImageSrc={animalImageSrc}
-                                size={width / 4 - 16}
-                                key={`row-${rowNdx}-tile-${tileNdx}`}
+                                size={width / 6}
+                                key={`row-${rowNdx}-tile-${colNdx}`}
+                                onFlip={() => onFlip(rowNdx, colNdx)}
+                                flipped={
+                                    !!selected.find(
+                                        ([r, c]) => r === rowNdx && c === colNdx
+                                    )
+                                }
+                                matched={
+                                    !!matched.find(
+                                        ([r, c]) => r === rowNdx && c === colNdx
+                                    )
+                                }
                             />
                         ))}
                     </View>

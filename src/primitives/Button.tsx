@@ -16,11 +16,10 @@ const Button: React.FC<TouchableHighlightProperties> = ({
     ...props
 }) => (
     <TouchableHighlight
-        underlayColor="silver"
         onPress={onPress}
         {...props}
         style={[defaultStyles, style]}
-    ></TouchableHighlight>
+    />
 )
 
 export default Button
