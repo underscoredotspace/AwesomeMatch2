@@ -19,9 +19,9 @@ const Tile: React.FC<TileProps> = ({
     matched,
 }) => {
     const frontRotateY = React.useRef(new Animated.Value(0)).current
+    const frontOpacity = React.useRef(new Animated.Value(1)).current
     const backRotateY = React.useRef(new Animated.Value(Math.PI)).current
     const [animating, setAnimating] = React.useState(false)
-    const [showFront, setShowFront] = React.useState(true)
 
     const tileShared = StyleSheet.create({
         shared: {
@@ -30,11 +30,10 @@ const Tile: React.FC<TileProps> = ({
             alignItems: "center",
             justifyContent: "center",
             position: "absolute",
-            backfaceVisibility: "hidden",
         },
     })
 
-    const tileStyle = StyleSheet.create({
+    const tileStyle = {
         tile: {
             flex: 1,
             marginHorizontal: 4,
@@ -48,29 +47,27 @@ const Tile: React.FC<TileProps> = ({
         },
         front: {
             ...tileShared.shared,
-            opacity: showFront ? 1 : 0,
+            opacity: frontOpacity,
             backgroundColor: "beige",
+            backface: "hidden",
         },
         back: {
             ...tileShared.shared,
-            // opacity: matched ? 1 : 0,
+            opacity: Animated.subtract(new Animated.Value(1), frontOpacity),
             backgroundColor: "lightsteelblue",
             transform: [{ perspective: 500, rotateY: Math.PI }],
         },
-    })
-
-    frontRotateY.addListener(({ value }) => {
-        if (value >= Math.PI / 2) {
-            setShowFront(false)
-        } else {
-            setShowFront(true)
-        }
-    })
+    }
 
     React.useEffect(() => {
         if (flipped) {
             setAnimating(true)
             Animated.parallel([
+                Animated.timing(frontOpacity, {
+                    useNativeDriver: true,
+                    toValue: 0,
+                    duration: 300,
+                }),
                 Animated.timing(frontRotateY, {
                     useNativeDriver: true,
                     toValue: Math.PI,
@@ -85,6 +82,11 @@ const Tile: React.FC<TileProps> = ({
         } else if (!matched) {
             setAnimating(true)
             Animated.parallel([
+                Animated.timing(frontOpacity, {
+                    useNativeDriver: true,
+                    toValue: 1,
+                    duration: 300,
+                }),
                 Animated.timing(frontRotateY, {
                     useNativeDriver: true,
                     toValue: 0,
